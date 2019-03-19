@@ -53,6 +53,24 @@ server.post('/api/users/create', async (req, res) => {
     }
 })
 
+server.put('/api/users/:id', async (req, res) => {
+    try {
+        const Data = req.body
+        const { id } = req.params
+        //console.log(id)
+
+        if(Data.name || Data.food_handling_license || Data.user_type) {
+            const array = await users.update(id, Data)
+            //console.log(Data)
+            res.status(200).json({ message: `The id # ${id} has been edited`})
+        } else {
+            res.status(422).json({ error: 'Missing required fields' })
+        }
+    } catch(err) {
+        res.status(500).json({ error: 'Database error' })
+    }
+})
+
 
 
 
