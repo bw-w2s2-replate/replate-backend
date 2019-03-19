@@ -38,6 +38,23 @@ server.get('/api/users/:id', async (req, res) => {
     }
 })
 
+server.post('/api/users/create', async (req, res) => {
+    try {
+        const Data = req.body
+
+        if(Data.name && Data.food_handling_license && Data.user_type) {
+            const result = await users.insert(Data)
+            res.status(201).json({message: `${Data.name} added to the database`})
+        } else {
+        res.status(422).json({ error: 'Missing data' })
+        }
+    } catch(err) {
+        res.status(500).json({ error: 'Dtabase error' })
+    }
+})
+
+
+
 
 configureRoutes(server);
 
