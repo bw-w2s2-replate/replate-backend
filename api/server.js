@@ -31,7 +31,7 @@ server.get('/api/users/:id', async (req, res) => {
         if(note.length > 0) {
             res.status(200).json(note)
         } else {
-            res.status(400).json({ error: `Data with that id doesn't exists` })
+            res.status(400).json({ error: `User with that id doesn't exists` })
         }
     } catch(err) {
         res.status(500).json({ error: 'Database error' })
@@ -70,6 +70,22 @@ server.put('/api/users/:id', async (req, res) => {
         res.status(500).json({ error: 'Database error' })
     }
 })
+
+server.delete('/api/users/:id', async (req, res) => {
+    try {
+        const { id } = req.params
+
+        if(id) {
+            const result = await users.remove(id)
+            res.status(200).json({ message: `User with id# ${id} successfuly deleted` })
+        } else {
+            res.status(404).json({ error: `User doesn't exist` })
+        }
+    } catch(err) {
+        res.status(500).json({ message: `Database error` })
+    }
+})
+
 
 
 
