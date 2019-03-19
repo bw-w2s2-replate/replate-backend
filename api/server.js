@@ -23,6 +23,21 @@ server.get('/api/users/all', async (req, res) => {
     }
 })
 
+server.get('/api/users/:id', async (req, res) => {
+    try { 
+        const { id } = req.params
+        const note = await users.findById(id)
+        //console.log(note)
+        if(note.length > 0) {
+            res.status(200).json(note)
+        } else {
+            res.status(400).json({ error: `Data with that id doesn't exists` })
+        }
+    } catch(err) {
+        res.status(500).json({ error: 'Database error' })
+    }
+})
+
 
 configureRoutes(server);
 
