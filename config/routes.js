@@ -1,6 +1,11 @@
+const express = require('express');
+const server = express();
 const bcrypt = require ('bcryptjs');
 const db = require('../data/dbConfig.js');
 const { authenticate, generateToken } = require('../auth/authenticate.js');
+const users = require('../models/usersModel.js');
+
+server.use(express.json());
 
 module.exports = server => {
     server.post('/api/register', register);
