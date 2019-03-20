@@ -128,6 +128,24 @@ server.post('/api/requests/create', async (req, res) => {
         res.status(500).json({ error: 'Dtabase error' })
     }
 })
+
+server.put('/api/requests/:id', async (req, res) => {
+    try {
+        const Data = req.body
+        const { id } = req.params
+        //console.log(id)
+
+        if(Data.food_location && Data.food_amount && Data.food_type) {
+            const array = await requests.update(id, Data)
+            //console.log(Data)
+            res.status(200).json({ message: `The request with id # ${id} has been edited`})
+        } else {
+            res.status(422).json({ error: 'Missing required fields' })
+        }
+    } catch(err) {
+        res.status(500).json({ error: 'Database error' })
+    }
+})
  
 
 
