@@ -114,6 +114,22 @@ server.get('/api/requests/:id', async (req, res) => {
 })
 
 
+server.post('/api/requests/create', async (req, res) => {
+    try {
+        const Data = req.body
+        //console.log(Data)
+        if(Data.food_location && Data.food_amount && Data.food_type) {
+            const result = await requests.insert(Data)
+            res.status(201).json({message: 'The following request added to the db:', Data})
+        } else {
+        res.status(422).json({ error: 'Missing data' })
+        }
+    } catch(err) {
+        res.status(500).json({ error: 'Dtabase error' })
+    }
+})
+
+
 
 configureRoutes(server);
 
