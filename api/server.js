@@ -89,6 +89,14 @@ server.delete('/api/users/:id', async (req, res) => {
 })
 
  // *** The endpoints for the requests table ***
+ server.get('/api/requests/all', async (req, res) => {
+    try {
+        const result = await requests.getAll()
+        res.status(200).json(result)
+    } catch (err) {
+        res.status(500).json({ error: 'Database error' })
+    }
+})
 
 
 
