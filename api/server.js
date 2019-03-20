@@ -145,8 +145,23 @@ server.put('/api/requests/:id', async (req, res) => {
     } catch(err) {
         res.status(500).json({ error: 'Database error' })
     }
-}) 
- 
+})
+
+server.delete('/api/requests/:id', async (req, res) => {
+    try {
+        const { id } = req.params
+
+        if(id) {
+            const result = await requests.remove(id)
+            res.status(200).json({ message: `Request with id# ${id} successfuly deleted` })
+        } else {
+            res.status(404).json({ error: `Request doesn't exist` })
+        }
+    } catch(err) {
+        res.status(500).json({ message: `Database error` })
+    }
+})
+
 
 
 configureRoutes(server);
