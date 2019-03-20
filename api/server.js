@@ -3,6 +3,7 @@ const server = express();
 const cors = require('cors');
 const helmet = require('helmet');
 const users = require('../models/usersModel.js');
+const requests = require('../models/requestsModel.js');
 
 server.use(express.json());
 server.use(helmet());
@@ -14,6 +15,7 @@ server.get('/', (req, res) => {
     res.status(200).json({ message: 'Server is working!' })
 })
 
+ // *** The endpoints for the users table ***
 server.get('/api/users/all', async (req, res) => {
     try {
         const result = await users.getAll()
@@ -86,8 +88,47 @@ server.delete('/api/users/:id', async (req, res) => {
     }
 })
 
+ // *** The endpoints for the requests table ***
+ server.get('/api/requests/all', async (req, res) => {
+    try {
+        const result = await requests.getAll()
+        res.status(200).json(result)
+    } catch (err) {
+        res.status(500).json({ error: 'Database error' })
+    }
+})
+
+server.get('/api/requests/:id', async (req, res) => {
+    try { 
+        const { id } = req.params
+        const data = await requests.findById(id)
+        //console.log(data)
+        if(data.length > 0) {
+            res.status(200).json(data)
+        } else {
+            res.status(400).json({ error: `Request with that id doesn't exists` })
+        }
+    } catch(err) {
+        res.status(500).json({ error: 'Database error' })
+    }
+})
 
 
+server.post('/api/requests/create', async (req, res) => {
+    try {
+        const Data = req.body
+        //console.log(Data)
+        if(Data.food_location && Data.food_amount && Data.food_type) {
+            const result = await requests.insert(Data)
+            res.status(201).json({message: 'The following request added to the db:', Data})
+        } else {
+        res.status(422).json({ error: 'Missing data' })
+        }
+    } catch(err) {
+        res.status(500).json({ error: 'Dtabase error' })
+    }
+})
+ 
 
 
 configureRoutes(server);
