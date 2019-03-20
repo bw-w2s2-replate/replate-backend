@@ -145,7 +145,7 @@ server.put('/api/requests/:id', async (req, res) => {
     } catch(err) {
         res.status(500).json({ error: 'Database error' })
     }
-})
+}) 
  
 
 
