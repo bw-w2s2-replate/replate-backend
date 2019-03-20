@@ -3,6 +3,7 @@ const server = express();
 const cors = require('cors');
 const helmet = require('helmet');
 const users = require('../models/usersModel.js');
+const requests = require('../models/requestsModel.js');
 
 server.use(express.json());
 server.use(helmet());
@@ -14,6 +15,7 @@ server.get('/', (req, res) => {
     res.status(200).json({ message: 'Server is working!' })
 })
 
+ // *** The endpoints for the users table ***
 server.get('/api/users/all', async (req, res) => {
     try {
         const result = await users.getAll()
@@ -86,7 +88,7 @@ server.delete('/api/users/:id', async (req, res) => {
     }
 })
 
-
+ // *** The endpoints for the requests table ***
 
 
 
