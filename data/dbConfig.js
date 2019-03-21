@@ -1,7 +1,7 @@
 const knex = require('knex');
 require('dotenv').config();
 
-const dbEngine = 'development';
+let dbEngine = 'development';
 if (process.env.NODE_ENV === 'production') {
     dbEngine = 'production';
 }
